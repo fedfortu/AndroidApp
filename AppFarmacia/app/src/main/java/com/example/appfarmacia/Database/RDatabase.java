@@ -8,9 +8,12 @@ import android.content.Context;
 
 import com.example.appfarmacia.Model.Farmacie;
 
+
+
 @Database (entities ={ Farmacie.class }, version = 1, exportSchema = false)
 public abstract class RDatabase extends RoomDatabase {
     public abstract FarmacieDao getFarmacieDao();
+
 
     private static RDatabase instance = null;
 
@@ -25,4 +28,5 @@ public abstract class RDatabase extends RoomDatabase {
         }
         return instance;
     }
+
 }

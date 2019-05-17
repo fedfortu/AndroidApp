@@ -34,36 +34,56 @@ public class MainActivity extends AppCompatActivity {
 
             //todo parsare risposta
 
-            String[] rows = response.split("\n");
+            String[] stringaFarmacia = response.split(";");
 
-            for (int i = 1; i < rows.length; i++) {
-                String[] stringaFarmacia = rows[i].split(";");
+            for (int i = 0; i < stringaFarmacia.length; i = i + 21) {
+                for (int j = 0; j < 21; j++) {
 
-                Farmacie farmacia = new Farmacie();
+                    Farmacie farmacia = new Farmacie();
 
-                if (stringaFarmacia.length == 21 && stringaFarmacia[15] == "-") {
-
-                    farmacia.setIdFarmacia(stringaFarmacia[0]);
-                    farmacia.setCodiceFarmacia(stringaFarmacia[1]);
-                    farmacia.setIndirizzo(stringaFarmacia[2]);
-                    farmacia.setDescrizioneFarmacia(stringaFarmacia[3]);
-                    farmacia.setPartitaIva(stringaFarmacia[4]);
-                    farmacia.setCap(stringaFarmacia[5]);
-                    farmacia.setCodiceComuneIstat(stringaFarmacia[6]);
-                    farmacia.setDescrizioneComune(stringaFarmacia[7]);
-                    farmacia.setFrazione(stringaFarmacia[8]);
-                    farmacia.setCodiceProvinciaIstat(stringaFarmacia[9]);
-                    farmacia.setSiglaProvincia(stringaFarmacia[10]);
-                    farmacia.setDescrizioneProvincia(stringaFarmacia[11]);
-                    farmacia.setCodiceRegione(stringaFarmacia[12]);
-                    farmacia.setDescrizioneRegione(stringaFarmacia[13]);
-                    farmacia.setDataInizioValidita(stringaFarmacia[14]);
-                    farmacia.setDataFineValidita(stringaFarmacia[15]);
-                    farmacia.setDescrizioneTipologia(stringaFarmacia[16]);
-                    farmacia.setCodiceTipologia(stringaFarmacia[17]);
-                    farmacia.setLatitudine(stringaFarmacia[18]);
-                    farmacia.setLongitudine(stringaFarmacia[19]);
-                    farmacia.setLocalize(stringaFarmacia[20]);
+                    if (j == 0) {
+                        farmacia.setIdFarmacia(stringaFarmacia[j]);
+                    } else if (j == 1) {
+                        farmacia.setCodiceFarmacia(stringaFarmacia[j]);
+                    } else if (j == 2) {
+                        farmacia.setIndirizzo(stringaFarmacia[j]);
+                    } else if (j == 3) {
+                        farmacia.setDescrizioneFarmacia(stringaFarmacia[j]);
+                    } else if (j == 4) {
+                        farmacia.setPartitaIva(stringaFarmacia[j]);
+                    } else if (j == 5) {
+                        farmacia.setCap(stringaFarmacia[j]);
+                    } else if (j == 6) {
+                        farmacia.setCodiceComuneIstat(stringaFarmacia[j]);
+                    } else if (j == 7) {
+                        farmacia.setDescrizioneComune(stringaFarmacia[j]);
+                    } else if (j == 8) {
+                        farmacia.setFrazione(stringaFarmacia[j]);
+                    } else if (j == 9) {
+                        farmacia.setCodiceProvinciaIstat(stringaFarmacia[j]);
+                    } else if (j == 10) {
+                        farmacia.setSiglaProvincia(stringaFarmacia[j]);
+                    } else if (j == 11) {
+                        farmacia.setDescrizioneProvincia(stringaFarmacia[j]);
+                    } else if (j == 12) {
+                        farmacia.setCodiceRegione(stringaFarmacia[j]);
+                    } else if (j == 13) {
+                        farmacia.setDescrizioneRegione(stringaFarmacia[j]);
+                    } else if (j == 14) {
+                        farmacia.setDataInizioValidita(stringaFarmacia[j]);
+                    } else if (j == 15) {
+                        farmacia.setDataFineValidita(stringaFarmacia[j]);
+                    } else if (j == 16) {
+                        farmacia.setDescrizioneTipologia(stringaFarmacia[j]);
+                    } else if (j == 17) {
+                        farmacia.setCodiceTipologia(stringaFarmacia[j]);
+                    } else if (j == 18) {
+                        farmacia.setLatitudine(stringaFarmacia[j]);
+                    } else if (j == 19) {
+                        farmacia.setLongitudine(stringaFarmacia[j]);
+                    } else if (j == 20) {
+                        farmacia.setLocalize(stringaFarmacia[j]);
+                    }
 
 
                     saveDataInDB(farmacia);
@@ -73,25 +93,28 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
-        }
-        //   swipeRefreshLayout.setRefreshing(false);
 
-        // if (adapter != null) adapter.notifyDataSetChanged();
+
+            //   swipeRefreshLayout.setRefreshing(false);
+
+            // if (adapter != null) adapter.notifyDataSetChanged();
+        }
+
     };
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
 
-        downloadData();
+            downloadData();
 
-    }
+        }
 
-    public void onClick (View view) {
-        startActivity(new Intent(MainActivity.this, ResearchActivity.class));
-    }
+        public void onClick(View view) {
+            startActivity(new Intent(MainActivity.this, ResearchActivity.class));
+        }
 
 /*
     @Override
@@ -114,21 +137,21 @@ public class MainActivity extends AppCompatActivity {
     }
 */
 
-    private void downloadData() {
+        private void downloadData() {
 
-       // swipeRefreshLayout.setRefreshing(true);
+            // swipeRefreshLayout.setRefreshing(true);
 
-        // Registering the receiver
-        LocalBroadcastManager.getInstance(getApplicationContext())
-                .registerReceiver(myReceiver, new IntentFilter(RequestService.FILTER_REQUEST_DOWNLOAD));
+            // Registering the receiver
+            LocalBroadcastManager.getInstance(getApplicationContext())
+                    .registerReceiver(myReceiver, new IntentFilter(RequestService.FILTER_REQUEST_DOWNLOAD));
 
-        // Http request by URLConnection
-        Intent intentService = new Intent(getApplicationContext(), RequestService.class);
-        intentService.putExtra(RequestService.REQUEST_ACTION, RequestService.REQUEST_DOWNLOAD);
-        startService(intentService);
+            // Http request by URLConnection
+            Intent intentService = new Intent(getApplicationContext(), RequestService.class);
+            intentService.putExtra(RequestService.REQUEST_ACTION, RequestService.REQUEST_DOWNLOAD);
+            startService(intentService);
 
 
-    }
+        }
 
 /*
     private void clearDataFromDB() {
@@ -155,14 +178,15 @@ public class MainActivity extends AppCompatActivity {
     }
     */
 
-    private void saveDataInDB(final Farmacie farmacie){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                RDatabase.getInstance(getApplicationContext())
-                        .getFarmacieDao().save(farmacie);
-            }
-        }).start();
+        private void saveDataInDB(final Farmacie farmacie) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    RDatabase.getInstance(getApplicationContext())
+                            .getFarmacieDao().save(farmacie);
+                }
+            }).start();
+        }
     }
-}
+
 
