@@ -12,8 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <activity android:name=".Activity.Search_Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
 
-        <activity android:name=".Activity.ResearchActivity"></activity>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@layout/activity_search_" />
+        </activity>
         <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,6 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service android:name=".Utility.RequestService" />
     </application>
 

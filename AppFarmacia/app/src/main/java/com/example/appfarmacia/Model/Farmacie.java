@@ -2,80 +2,78 @@ package com.example.appfarmacia.Model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity (tableName= "farmacie")
+@Entity (tableName="farmacie")
 public class Farmacie {
 
-    @PrimaryKey(autoGenerate = true)
-    private long id;
 
-    @ColumnInfo(name = "idFarmacia")
-    private String idFarmacia;
+   @PrimaryKey (autoGenerate=true)
+   private long id;
 
-    @ColumnInfo(name = "codiceFaarmacia")
+    @ColumnInfo(name="codiceFarmacia")
     private String codiceFarmacia;
 
-    @ColumnInfo(name = "indirizzo")
+    @ColumnInfo(name="indirizzo")
     private String indirizzo;
 
-    @ColumnInfo(name = "descrizioneFarmacia")
+    @ColumnInfo (name="descrizioneFarmacia")
     private String descrizioneFarmacia;
 
-    @ColumnInfo(name = "partitaIva")
+    @ColumnInfo(name="partitaIva")
     private String partitaIva;
 
-    @ColumnInfo(name = "cap")
+    @ColumnInfo(name="cap")
     private String cap;
 
-    @ColumnInfo(name = "codiceComuneIstat")
+    @ColumnInfo(name="codiceComuneIstat")
     private String codiceComuneIstat;
 
-    @ColumnInfo(name = "descrizioneComune")
+    @ColumnInfo(name="descrizioneComune")
     private String descrizioneComune;
 
-    @ColumnInfo(name = "frazione")
+    @ColumnInfo(name="frazione")
     private String frazione;
 
-    @ColumnInfo(name = "codiceProvinciaIstat")
+    @ColumnInfo(name="codiceProvinciaIstat")
     private String codiceProvinciaIstat;
 
-    @ColumnInfo(name = "siglaProvincia")
+    @ColumnInfo(name="siglaProvincia")
     private String siglaProvincia;
 
-    @ColumnInfo(name = "descrizioneProvincia")
+    @ColumnInfo(name="descrizioneProvincia")
     private String descrizioneProvincia;
 
-    @ColumnInfo(name = "codiceRegione")
+    @ColumnInfo(name="codiceRegione")
     private String codiceRegione;
 
-    @ColumnInfo(name = "descrizioneRegione")
+    @ColumnInfo(name="descrizioneRegione")
     private String descrizioneRegione;
 
-    @ColumnInfo(name = "dataInizioValidita")
+    @ColumnInfo(name="dataInizioValidita")
     private String dataInizioValidita;
 
-    @ColumnInfo(name = "dataFineValidita")
+    @ColumnInfo(name="dataFineValidita")
     private String dataFineValidita;
 
-    @ColumnInfo(name = "descrizioneTipologia")
+    @ColumnInfo(name="descrizioneTipologia")
     private String descrizioneTipologia;
 
-    @ColumnInfo(name = "codiceTipologia")
+    @ColumnInfo(name="codiceTipologia")
     private String codiceTipologia;
 
-    @ColumnInfo(name = "latitudine")
+    @ColumnInfo(name="latitudine")
     private String latitudine;
 
-    @ColumnInfo(name = "longitudine")
+    @ColumnInfo(name="longitudine")
     private String longitudine;
 
-    @ColumnInfo(name = "localize")
+    @ColumnInfo(name="localize")
     private String localize;
 
-    public Farmacie() {
-    }
+    public Farmacie() {}
+
+
 
     public long getId() {
         return id;
@@ -83,14 +81,6 @@ public class Farmacie {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getIdFarmacia() {
-        return idFarmacia;
-    }
-
-    public void setIdFarmacia(String idFarmacia) {
-        this.idFarmacia = idFarmacia;
     }
 
     public String getCodiceFarmacia() {

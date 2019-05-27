@@ -4,18 +4,18 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
+import com.example.appfarmacia.Activity.Adapter.Adapter;
 import com.example.appfarmacia.Database.RDatabase;
 import com.example.appfarmacia.Model.Farmacie;
 import com.example.appfarmacia.R;
 import com.example.appfarmacia.Utility.RequestService;
 import com.example.appfarmacia.Utility.Settings;
-import android.view.View;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +23,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private List<Farmacie> farmacie = new ArrayList<>();
+
+    private Adapter adapter;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private BroadcastReceiver myReceiver = new BroadcastReceiver() {
         @Override
@@ -36,87 +40,86 @@ public class MainActivity extends AppCompatActivity {
 
             String[] stringaFarmacia = response.split(";");
 
-            for (int i = 0; i < stringaFarmacia.length; i = i + 21) {
-                for (int j = 0; j < 21; j++) {
+            for (int i = 22; i < stringaFarmacia.length; i = i + 20) {
+                Farmacie farmacia = new Farmacie();
 
-                    Farmacie farmacia = new Farmacie();
+                for (int j = i; j < i + 20; j++) {
 
-                    if (j == 0) {
-                        farmacia.setIdFarmacia(stringaFarmacia[j]);
-                    } else if (j == 1) {
+                    if (j == i) {
                         farmacia.setCodiceFarmacia(stringaFarmacia[j]);
-                    } else if (j == 2) {
+                    } else if (j == i + 1) {
                         farmacia.setIndirizzo(stringaFarmacia[j]);
-                    } else if (j == 3) {
+                    } else if (j == i + 2) {
                         farmacia.setDescrizioneFarmacia(stringaFarmacia[j]);
-                    } else if (j == 4) {
+                    } else if (j == i + 3) {
                         farmacia.setPartitaIva(stringaFarmacia[j]);
-                    } else if (j == 5) {
+                    } else if (j == i + 4) {
                         farmacia.setCap(stringaFarmacia[j]);
-                    } else if (j == 6) {
+                    } else if (j == i + 5) {
                         farmacia.setCodiceComuneIstat(stringaFarmacia[j]);
-                    } else if (j == 7) {
+                    } else if (j == i + 6) {
                         farmacia.setDescrizioneComune(stringaFarmacia[j]);
-                    } else if (j == 8) {
+                    } else if (j == i + 7) {
                         farmacia.setFrazione(stringaFarmacia[j]);
-                    } else if (j == 9) {
+                    } else if (j == i + 8) {
                         farmacia.setCodiceProvinciaIstat(stringaFarmacia[j]);
-                    } else if (j == 10) {
+                    } else if (j == i + 9) {
                         farmacia.setSiglaProvincia(stringaFarmacia[j]);
-                    } else if (j == 11) {
+                    } else if (j == i + 10) {
                         farmacia.setDescrizioneProvincia(stringaFarmacia[j]);
-                    } else if (j == 12) {
+                    } else if (j == i + 11) {
                         farmacia.setCodiceRegione(stringaFarmacia[j]);
-                    } else if (j == 13) {
+                    } else if (j == i + 12) {
                         farmacia.setDescrizioneRegione(stringaFarmacia[j]);
-                    } else if (j == 14) {
+                    } else if (j == i + 13) {
                         farmacia.setDataInizioValidita(stringaFarmacia[j]);
-                    } else if (j == 15) {
+                    } else if (j == i + 14) {
                         farmacia.setDataFineValidita(stringaFarmacia[j]);
-                    } else if (j == 16) {
+                    } else if (j == i + 15) {
                         farmacia.setDescrizioneTipologia(stringaFarmacia[j]);
-                    } else if (j == 17) {
+                    } else if (j == i + 16) {
                         farmacia.setCodiceTipologia(stringaFarmacia[j]);
-                    } else if (j == 18) {
+                    } else if (j == i + 17) {
                         farmacia.setLatitudine(stringaFarmacia[j]);
-                    } else if (j == 19) {
+                    } else if (j == i + 18) {
                         farmacia.setLongitudine(stringaFarmacia[j]);
-                    } else if (j == 20) {
-                        farmacia.setLocalize(stringaFarmacia[j]);
+                    } else if (j == i + 19) {
+                        farmacia.setLocalize(stringaFarmacia[j].substring(0, 1));
                     }
-
-
-                    saveDataInDB(farmacia);
-                    farmacie.add(farmacia);
-
-
                 }
 
+                saveDataInDB(farmacia);
+                farmacie.add(farmacia);
+
+                //   swipeRefreshLayout.setRefreshing(false);
+                if (adapter != null) adapter.notifyDataSetChanged();
             }
-
-
-            //   swipeRefreshLayout.setRefreshing(false);
-
-            // if (adapter != null) adapter.notifyDataSetChanged();
         }
-
     };
 
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
 
-            downloadData();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
+
+    }
+
+
+     public void onClick(View view) {
+       /*  View parentView = (View) view.getParent();
+         EditText editText = parentView.findViewById(R.id.editText);
+        String query = editText.getText().toString();
+        if (query != "") {
+       */     Intent intent = new Intent(MainActivity.this, Search_Activity.class);
+           // intent.putExtra("query", query);
+            startActivity(intent);
         }
+  //  }
 
-        public void onClick(View view) {
-            startActivity(new Intent(MainActivity.this, ResearchActivity.class));
-        }
 
-/*
     @Override
     protected void onResume() {
         super.onResume();
@@ -133,60 +136,77 @@ public class MainActivity extends AppCompatActivity {
 
             loadDataFromDB();
         }
-        Settings.save(getApplicationContext(), Settings.FIRST_TIME, false);
+       Settings.save(getApplicationContext(), Settings.FIRST_TIME, false);
     }
-*/
-
-        private void downloadData() {
-
-            // swipeRefreshLayout.setRefreshing(true);
-
-            // Registering the receiver
-            LocalBroadcastManager.getInstance(getApplicationContext())
-                    .registerReceiver(myReceiver, new IntentFilter(RequestService.FILTER_REQUEST_DOWNLOAD));
-
-            // Http request by URLConnection
-            Intent intentService = new Intent(getApplicationContext(), RequestService.class);
-            intentService.putExtra(RequestService.REQUEST_ACTION, RequestService.REQUEST_DOWNLOAD);
-            startService(intentService);
 
 
-        }
+    private void downloadData() {
 
-/*
+      //   swipeRefreshLayout.setRefreshing(true);
+
+        // Registering the receiver
+        LocalBroadcastManager.getInstance(getApplicationContext())
+                .registerReceiver(myReceiver, new IntentFilter(RequestService.FILTER_REQUEST_DOWNLOAD));
+
+        // Http request by URLConnection
+        Intent intentService = new Intent(getApplicationContext(), RequestService.class);
+        intentService.putExtra(RequestService.REQUEST_ACTION, RequestService.REQUEST_DOWNLOAD);
+        startService(intentService);
+
+
+    }
+
+
     private void clearDataFromDB() {
 
-        cities.clear();
+        farmacie.clear();
         if (adapter != null) adapter.notifyDataSetChanged();
 
-        if (Settings.loadBoolean(getApplicationContext(), Settings.SWITCH_DB, true)) {
-
-            // Delete by SQLiteOpenHelper
-            Database.getInstance(getApplicationContext()).delete();
-
-        } else {
-            // Delete by RoomDatabase
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    RDatabase.getInstance(getApplicationContext())
-                            .getCityDao().deleteAll();
-                }
-            }).start();
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RDatabase.getInstance(getApplicationContext())
+                        .getFarmacieDao().deleteAll();
+            }
+        }).start();
     }
-    */
 
-        private void saveDataInDB(final Farmacie farmacie) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    RDatabase.getInstance(getApplicationContext())
-                            .getFarmacieDao().save(farmacie);
-                }
-            }).start();
-        }
+
+
+    private void saveDataInDB(final Farmacie farmacie) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RDatabase.getInstance(getApplicationContext())
+                        .getFarmacieDao().save(farmacie);
+            }
+        }).start();
     }
+
+
+    private void loadDataFromDB() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<Farmacie> data = RDatabase.getInstance(getApplicationContext())
+                        .getFarmacieDao().getAllFarmacie();
+                farmacie.addAll(data);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(adapter != null) adapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }).start();
+    }
+
+
+}
+
+
+
+
 
 
