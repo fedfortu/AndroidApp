@@ -26,7 +26,7 @@ public interface FarmacieDao {
     public List<Farmacie> getAllFarmacie();
 
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
-    @Query("SELECT * FROM farmacie WHERE descrizioneComune LIKE :nomeComune ")
-    public List<Farmacie> findFarmacieByComune(String nomeComune);
+    @Query("SELECT * FROM farmacie WHERE id=:id")
+    public List<Farmacie> findFarmacieByComune(long id);
 
 }

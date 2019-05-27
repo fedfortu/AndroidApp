@@ -46,7 +46,7 @@ public class Search_Activity extends AppCompatActivity{
             @Override
             public void run() {
                 List<Farmacie> data = RDatabase.getInstance(getApplicationContext())
-                        .getFarmacieDao().findFarmacieByComune("PONTE BUGGIANESE");
+                        .getFarmacieDao().findFarmacieByComune(2);
                 farmacie.addAll(data);
                 runOnUiThread(new Runnable() {
                     @Override
