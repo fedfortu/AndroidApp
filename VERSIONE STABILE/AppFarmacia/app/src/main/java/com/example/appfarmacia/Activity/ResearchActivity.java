@@ -33,7 +33,7 @@ public class ResearchActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List<Farmacie> data= RDatabase.getInstance(getApplicationContext()).getFarmacieDao().findFarmacieByComune(2);
+                List<Farmacie> data= RDatabase.getInstance(getApplicationContext()).getFarmacieDao().findFarmacieByComune("TORINO");
                 farmacie.addAll(data);
                 runOnUiThread(new Runnable() {
                     @Override

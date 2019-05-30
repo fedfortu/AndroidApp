@@ -24,8 +24,8 @@ public interface FarmacieDao {
     @Query("SELECT * FROM farmacie")
     public List<Farmacie> getAllFarmacie();
 
-    @Query("SELECT * FROM farmacie WHERE id=:id")
-    public List<Farmacie> findFarmacieByComune(long id);
+    @Query("SELECT * FROM farmacie WHERE descrizioneComune LIKE :nomeComune")
+    public abstract List<Farmacie> findFarmacieByComune(String nomeComune);
 
 
 }

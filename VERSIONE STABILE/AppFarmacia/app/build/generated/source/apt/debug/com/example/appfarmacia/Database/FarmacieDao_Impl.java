@@ -296,11 +296,15 @@ public class FarmacieDao_Impl implements FarmacieDao {
   }
 
   @Override
-  public List<Farmacie> findFarmacieByComune(long id) {
-    final String _sql = "SELECT * FROM farmacie WHERE id=?";
+  public List<Farmacie> findFarmacieByComune(String nomeComune) {
+    final String _sql = "SELECT * FROM farmacie WHERE descrizioneComune LIKE ?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
     int _argIndex = 1;
-    _statement.bindLong(_argIndex, id);
+    if (nomeComune == null) {
+      _statement.bindNull(_argIndex);
+    } else {
+      _statement.bindString(_argIndex, nomeComune);
+    }
     final Cursor _cursor = __db.query(_statement);
     try {
       final int _cursorIndexOfId = _cursor.getColumnIndexOrThrow("id");

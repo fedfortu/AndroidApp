@@ -1,4 +1,4 @@
-#Thu May 30 12:41:34 CEST 2019
-base.0=C\:\\Users\\user\\Desktop\\AppFarmacia\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
+#Thu May 30 14:20:48 CEST 2019
+base.0=C\:\\Users\\user\\Documents\\GitHub\\AndroidApp\\VERSIONE STABILE\\AppFarmacia\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
 path.0=classes.dex
 renamed.0=classes.dex
