@@ -1,6 +1,5 @@
 package com.example.cercafarmacie.Activity;
 
-
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,7 +33,7 @@ public class ResearchActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List<Farmacie> data= RDatabase.getInstance(getApplicationContext()).getFarmacieDao().findFarmacieByComune("TORINO");
+                List<Farmacie> data= RDatabase.getInstance(getApplicationContext()).getFarmacieDao().findFarmacieByComune("PONTE BUGGIANESE");
                 farmacie.addAll(data);
                 runOnUiThread(new Runnable() {
                     @Override
@@ -48,5 +47,4 @@ public class ResearchActivity extends AppCompatActivity {
 
     }
 }
-
 
