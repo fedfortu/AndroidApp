@@ -18,11 +18,7 @@ import com.example.cercafarmacie.Utility.Settings;
 import android.view.View;
 
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,6 +37,65 @@ public class MainActivity extends AppCompatActivity {
 
             //todo parsare risposta
 
+            String[] stringaFarmacia = response.split(";");
+
+            for (int i = 21; i < stringaFarmacia.length; i = i + 20) {
+
+                Farmacie farmacia = new Farmacie();
+
+                for (int j = i; j < i + 20; j++) {
+
+
+                    if (j == i) {
+                        farmacia.setCodiceFarmacia(stringaFarmacia[j]);
+                    } else if (j == i + 1) {
+                        farmacia.setIndirizzo(stringaFarmacia[j]);
+                    } else if (j == i + 2) {
+                        farmacia.setDescrizioneFarmacia(stringaFarmacia[j]);
+                    } else if (j == i + 3) {
+                        farmacia.setPartitaIva(stringaFarmacia[j]);
+                    } else if (j == i + 4) {
+                        farmacia.setCap(stringaFarmacia[j]);
+                    } else if (j == i + 5) {
+                        farmacia.setCodiceComuneIstat(stringaFarmacia[j]);
+                    } else if (j == i + 6) {
+                        farmacia.setDescrizioneComune(stringaFarmacia[j]);
+                    } else if (j == i + 7) {
+                        farmacia.setFrazione(stringaFarmacia[j]);
+                    } else if (j == i + 8) {
+                        farmacia.setCodiceProvinciaIstat(stringaFarmacia[j]);
+                    } else if (j == i + 9) {
+                        farmacia.setSiglaProvincia(stringaFarmacia[j]);
+                    } else if (j == i + 10) {
+                        farmacia.setDescrizioneProvincia(stringaFarmacia[j]);
+                    } else if (j == i + 11) {
+                        farmacia.setCodiceRegione(stringaFarmacia[j]);
+                    } else if (j == i + 12) {
+                        farmacia.setDescrizioneRegione(stringaFarmacia[j]);
+                    } else if (j == i + 13) {
+                        farmacia.setDataInizioValidita(stringaFarmacia[j]);
+                    } else if (j == i + 14) {
+                        farmacia.setDataFineValidita(stringaFarmacia[j]);
+                    } else if (j == i + 15) {
+                        farmacia.setDescrizioneTipologia(stringaFarmacia[j]);
+                    } else if (j == i + 16) {
+                        farmacia.setCodiceTipologia(stringaFarmacia[j]);
+                    } else if (j == i + 17) {
+                        farmacia.setLatitudine(stringaFarmacia[j]);
+                    } else if (j == i + 18) {
+                        farmacia.setLongitudine(stringaFarmacia[j]);
+                    } else if (j == i + 19) {
+                        farmacia.setLocalize(stringaFarmacia[j]);
+                    }
+
+
+                    saveDataInDB(farmacia);
+                    farmacie.add(farmacia);
+
+
+                }
+
+            }
 
 
             //   swipeRefreshLayout.setRefreshing(false);
