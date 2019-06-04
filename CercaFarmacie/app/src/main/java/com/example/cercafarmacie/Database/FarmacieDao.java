@@ -12,8 +12,11 @@ import java.util.List;
 @Dao
 public interface FarmacieDao {
 
+  //  @Insert
+    //public void save(Farmacia farmacia);
+
     @Insert
-    public void save(Farmacia farmacia);
+    public void saveAll(List<Farmacia> farmacia);
 
     @Delete
     public void delete(Farmacia farmacia);

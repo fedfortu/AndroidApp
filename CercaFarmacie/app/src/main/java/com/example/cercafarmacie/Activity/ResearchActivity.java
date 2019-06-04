@@ -30,10 +30,13 @@ public class ResearchActivity extends AppCompatActivity {
         list.setLayoutManager(new LinearLayoutManager(this));
         list.setAdapter(adapter);
 
+
+        final String comune = getIntent().getStringExtra("query");
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List<Farmacia> data= RDatabase.getInstance(getApplicationContext()).getFarmacieDao().findFarmacieByComune("TORINO");
+                List<Farmacia> data= RDatabase.getInstance(getApplicationContext()).getFarmacieDao().findFarmacieByComune(comune);
                 farmacie.addAll(data);
                 runOnUiThread(new Runnable() {
                     @Override

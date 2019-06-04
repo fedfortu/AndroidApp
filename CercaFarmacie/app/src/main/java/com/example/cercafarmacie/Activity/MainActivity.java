@@ -19,10 +19,12 @@ import com.example.cercafarmacie.Utility.VolleyRequest;
 import com.opencsv.CSVReader;
 
 import android.view.View;
+import android.widget.EditText;
 
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -32,6 +34,7 @@ import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,19 +48,6 @@ public class MainActivity extends AppCompatActivity {
             String response = intent.getStringExtra(RequestService.EXTRA_SERVER_RESPONSE);
             if (response == null) return;
 
-            //todo parsare risposta
-
-
-
-
-            //   swipeRefreshLayout.setRefreshing(false);
-
-            // if (adapter != null) adapter.notifyDataSetChanged();
-         /*   for (Farmacia f : farmacie) {
-                saveDataInDB(f);
-
-            }
-*/
         }
 
     };
@@ -72,9 +62,17 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
     public void onClick(View view) {
-        Intent intent = new Intent(MainActivity.this, ResearchActivity.class);
+        View parentView = (View) view.getParent();
+         EditText editText = parentView.findViewById(R.id.editText);
+        String query = editText.getText().toString();
+        if (query != "") {
+            Intent intent = new Intent(MainActivity.this, ResearchActivity.class);
+            intent.putExtra("query", query);
         startActivity(intent);
+        }
     }
 
 
@@ -96,18 +94,14 @@ public class MainActivity extends AppCompatActivity {
         VolleyRequest.getInstance(getApplicationContext()).downloadFarmacie(new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                List resultList = new ArrayList();
-                InputStream stream = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8));
 
+                String[] rows = response.split("\r\n");
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-                try{
-                    String csvLine;
-                    while ((csvLine = reader.readLine()) != null) {
-                        String[] stringaFarmacia = csvLine.split(";");
+                for(int i= 0; i <rows.length; i++) {
+
+                    String[] stringaFarmacia = rows[i].split(";");
 
                         Farmacia farmacia = new Farmacia();
-
 
                         farmacia.setCodiceFarmacia(stringaFarmacia[1]);
                         farmacia.setIndirizzo(stringaFarmacia[2]);
@@ -130,26 +124,11 @@ public class MainActivity extends AppCompatActivity {
                         farmacia.setLongitudine(stringaFarmacia[19]);
                         farmacia.setLocalize(stringaFarmacia[20]);
 
-                        saveDataInDB(farmacia);
+                        farmacie.add(farmacia);
                     }
-                }
-                catch (IOException ex) {
-                    throw new RuntimeException("Error in reading CSV file: "+ex);
-                }
-                finally {
-                    try {
-                        stream.close();
-                    }
-                    catch (IOException e) {
-                        throw new RuntimeException("Error while closing input stream: "+e);
-                    }
-                }
 
-
-                    }
-            });
-        /*
-        LocalBroadcastManager.getInstance(getApplicationContext())
+            saveDataInDB(farmacie);
+     /*   LocalBroadcastManager.getInstance(getApplicationContext())
                 .registerReceiver(myReceiver, new IntentFilter(RequestService.FILTER_REQUEST_DOWNLOAD));
 
         // Http request by URLConnection
@@ -157,8 +136,9 @@ public class MainActivity extends AppCompatActivity {
         intentService.putExtra(RequestService.REQUEST_ACTION, RequestService.REQUEST_DOWNLOAD);
         startService(intentService);
         */
-        }
-
+            }
+        });
+    }
 
 
 
@@ -179,12 +159,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void saveDataInDB(final Farmacia farmacia) {
+    private void saveDataInDB(final List<Farmacia> farmacia) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 RDatabase.getInstance(getApplicationContext())
-                        .getFarmacieDao().save(farmacia);
+                        .getFarmacieDao().saveAll(farmacia);
             }
         }).start();
     }
