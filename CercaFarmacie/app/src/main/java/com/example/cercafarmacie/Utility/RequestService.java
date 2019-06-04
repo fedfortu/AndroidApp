@@ -47,7 +47,7 @@ public class RequestService extends IntentService {
 
     private void downloadData(){
 
-        String address = "https://rosariociaglia.altervista.org/file/farmacie-italia-2018.CSV";
+        String address = "http://www.dati.salute.gov.it/imgs/C_17_dataset_5_download_itemDownload0_upFile.CSV";
 
         // Check if the address is an URL
         URL url = null;

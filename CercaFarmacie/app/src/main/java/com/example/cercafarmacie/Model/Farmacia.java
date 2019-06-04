@@ -7,7 +7,7 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 @Entity (tableName= "farmacie")
-public class Farmacie {
+public class Farmacia {
 
     @PrimaryKey(autoGenerate = true)
     private long id;
@@ -72,7 +72,7 @@ public class Farmacie {
     @ColumnInfo(name = "localize")
     private String localize;
 
-    public Farmacie() {
+    public Farmacia() {
     }
 
     public long getId() {
@@ -243,6 +243,8 @@ public class Farmacie {
     public void setLocalize(String localize) {
         this.localize = localize;
     }
+
+
 }
 
 

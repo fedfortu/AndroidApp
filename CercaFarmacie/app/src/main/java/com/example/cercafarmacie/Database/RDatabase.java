@@ -6,11 +6,11 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 
-import com.example.cercafarmacie.Model.Farmacie;
+import com.example.cercafarmacie.Model.Farmacia;
 
 
 
-@Database (entities ={ Farmacie.class }, version = 1, exportSchema = false)
+@Database (entities ={ Farmacia.class }, version = 1, exportSchema = false)
 public abstract class RDatabase extends RoomDatabase {
     public abstract FarmacieDao getFarmacieDao();
 

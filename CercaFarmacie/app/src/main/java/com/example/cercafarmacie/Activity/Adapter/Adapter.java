@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.cercafarmacie.Model.Farmacie;
+import com.example.cercafarmacie.Model.Farmacia;
 import com.example.cercafarmacie.R;
 
 import java.util.List;
@@ -15,9 +15,9 @@ import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
-    private List<Farmacie> data;
+    private List<Farmacia> data;
 
-    public Adapter(List<Farmacie> data){
+    public Adapter(List<Farmacia> data){
         this.data = data;
     }
 
@@ -33,9 +33,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
-        Farmacie farmacie = data.get(i);
-        viewHolder.title.setText(farmacie.getDescrizioneFarmacia());
-        viewHolder.subtitle.setText(farmacie.getIndirizzo());
+        Farmacia farmacia = data.get(i);
+        viewHolder.title.setText(farmacia.getDescrizioneFarmacia());
+        viewHolder.subtitle.setText(farmacia.getIndirizzo());
     }
 
     @Override
@@ -57,20 +57,25 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             subtitle = view.findViewById(R.id.subtitle);
 
             // Define the click event on item
-          /*  view.setOnClickListener(new View.OnClickListener() {
+           view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    // Open another Activity and pass to it the right city
-                    Farmacie farmacie = data.get(getAdapterPosition());
+                    Farmacia f = data.get(getAdapterPosition());
+                    System.out.println(f);
+
+
+                    /* Open another Activity and pass to it the right city
+                    Farmacia farmacie = data.get(getAdapterPosition());
                     Intent intent = new Intent(v.getContext(), Search_Activity.class);
                     intent.putExtra("RegionName", farmacie.getDescrizioneFarmacia());
                     intent.putExtra("CityName", farmacie.getDescrizioneComune());
                     intent.putExtra("latitude", farmacie.getLatitudine());
                     intent.putExtra("longitude", farmacie.getLongitudine());
                     v.getContext().startActivity(intent);
+                    */
                 }
-            }); */
+            });
         }
     }
 }

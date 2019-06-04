@@ -5,7 +5,7 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
-import com.example.cercafarmacie.Model.Farmacie;
+import com.example.cercafarmacie.Model.Farmacia;
 
 import java.util.List;
 
@@ -13,19 +13,19 @@ import java.util.List;
 public interface FarmacieDao {
 
     @Insert
-    public void save(Farmacie farmacie);
+    public void save(Farmacia farmacia);
 
     @Delete
-    public void delete(Farmacie farmacie);
+    public void delete(Farmacia farmacia);
 
     @Query("DELETE FROM farmacie")
     public void deleteAll();
 
     @Query("SELECT * FROM farmacie")
-    public List<Farmacie> getAllFarmacie();
+    public List<Farmacia> getAllFarmacie();
 
     @Query("SELECT * FROM farmacie WHERE descrizioneComune LIKE :nomeComune")
-    public abstract List<Farmacie> findFarmacieByComune(String nomeComune);
+    public abstract List<Farmacia> findFarmacieByComune(String nomeComune);
 
 
 }

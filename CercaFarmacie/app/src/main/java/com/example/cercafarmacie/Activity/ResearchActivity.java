@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.example.cercafarmacie.Activity.Adapter.Adapter;
 import com.example.cercafarmacie.Database.RDatabase;
-import com.example.cercafarmacie.Model.Farmacie;
+import com.example.cercafarmacie.Model.Farmacia;
 import com.example.cercafarmacie.R;
 
 
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResearchActivity extends AppCompatActivity {
-    private List<Farmacie> farmacie = new ArrayList<>();
+    private List<Farmacia> farmacie = new ArrayList<>();
     private Adapter adapter;
 
 
@@ -33,7 +33,7 @@ public class ResearchActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List<Farmacie> data= RDatabase.getInstance(getApplicationContext()).getFarmacieDao().findFarmacieByComune("PONTE BUGGIANESE");
+                List<Farmacia> data= RDatabase.getInstance(getApplicationContext()).getFarmacieDao().findFarmacieByComune("TORINO");
                 farmacie.addAll(data);
                 runOnUiThread(new Runnable() {
                     @Override
