@@ -7,10 +7,6 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-/**
- * MobileProgramming2018
- * Created by leonardo on 30/11/2018.
- */
 public class VolleyRequest {
 
     private RequestQueue queue;

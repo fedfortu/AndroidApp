@@ -1,5 +1,6 @@
 package com.example.cercafarmacie.Activity;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +16,7 @@ import com.example.cercafarmacie.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResearchActivity extends AppCompatActivity {
+public class ResearchActivity extends AppCompatActivity{
     private List<Farmacia> farmacie = new ArrayList<>();
     private Adapter adapter;
 
@@ -33,21 +34,22 @@ public class ResearchActivity extends AppCompatActivity {
 
         final String comune = getIntent().getStringExtra("query");
 
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List<Farmacia> data= RDatabase.getInstance(getApplicationContext()).getFarmacieDao().findFarmacieByComune(comune);
+                List<Farmacia> data= RDatabase.getInstance(getApplicationContext()).getFarmacieDao().findFarmacieByComune(comune, "-");
                 farmacie.addAll(data);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (adapter != null) adapter.notifyDataSetChanged();
+                        if (adapter != null) {
+                            adapter.notifyDataSetChanged();
+                        }
                     }
                 });
-
             }
         }).start();
-
     }
 }
 

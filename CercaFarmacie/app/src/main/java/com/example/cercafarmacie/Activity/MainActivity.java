@@ -1,10 +1,8 @@
 package com.example.cercafarmacie.Activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -13,46 +11,23 @@ import com.android.volley.Response;
 import com.example.cercafarmacie.Database.RDatabase;
 import com.example.cercafarmacie.Model.Farmacia;
 import com.example.cercafarmacie.R;
-import com.example.cercafarmacie.Utility.RequestService;
 import com.example.cercafarmacie.Utility.Settings;
 import com.example.cercafarmacie.Utility.VolleyRequest;
-import com.opencsv.CSVReader;
 
+
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
-
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private List<Farmacia> farmacie = new ArrayList<>();
-
-    private BroadcastReceiver myReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            if (intent == null) return;
-            String response = intent.getStringExtra(RequestService.EXTRA_SERVER_RESPONSE);
-            if (response == null) return;
-
-        }
-
-    };
-
-
 
 
     @Override
@@ -61,32 +36,82 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-    }
+        if(Settings.loadBoolean(getApplicationContext(), Settings.FIRST_TIME, true)) {
+            clearDataFromDB();
 
-
-    public void onClick(View view) {
-        View parentView = (View) view.getParent();
-         EditText editText = parentView.findViewById(R.id.editText);
-        String query = editText.getText().toString();
-        if (query != "") {
-            Intent intent = new Intent(MainActivity.this, ResearchActivity.class);
-            intent.putExtra("query", query);
-        startActivity(intent);
+            downloadData();
         }
+         Settings.save(getApplicationContext(), Settings.FIRST_TIME, false);
     }
 
+
+
+    private void showExitDialog(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle(R.string.dialog_title);
+        builder.setMessage(R.string.dialog_message);
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        menu.add(0, 1, 0, R.string.main_refresh);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+
+        switch (item.getItemId()){
+            case R.id.main_exit:
+                showExitDialog();
+                return true;
+
+            case 1:
+
+                Button button = (Button) findViewById(R.id.button);
+
+                button.getBackground().setAlpha(50);
+                button.setClickable(false);
+
+                clearDataFromDB();
+
+                downloadData();
+
+                return true;
+
+            default:
+                return false;
+        }
+
+
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        // If is the first time you open the app, do a HTTP request to download the data
-        clearDataFromDB();
-
-        downloadData();
-
     }
-
 
     private void downloadData() {
 
@@ -97,11 +122,11 @@ public class MainActivity extends AppCompatActivity {
 
                 String[] rows = response.split("\r\n");
 
-                for(int i= 0; i <rows.length; i++) {
+                for(int i= 1; i <rows.length; i++) {
 
                     String[] stringaFarmacia = rows[i].split(";");
 
-                        Farmacia farmacia = new Farmacia();
+                    Farmacia farmacia = new Farmacia();
 
                         farmacia.setCodiceFarmacia(stringaFarmacia[1]);
                         farmacia.setIndirizzo(stringaFarmacia[2]);
@@ -125,28 +150,24 @@ public class MainActivity extends AppCompatActivity {
                         farmacia.setLocalize(stringaFarmacia[20]);
 
                         farmacie.add(farmacia);
-                    }
+                }
+                saveDataInDB(farmacie);
+                Button button = (Button) findViewById(R.id.button);
 
-            saveDataInDB(farmacie);
-     /*   LocalBroadcastManager.getInstance(getApplicationContext())
-                .registerReceiver(myReceiver, new IntentFilter(RequestService.FILTER_REQUEST_DOWNLOAD));
+                button.getBackground().setAlpha(255);
+                button.setClickable(true);
 
-        // Http request by URLConnection
-        Intent intentService = new Intent(getApplicationContext(), RequestService.class);
-        intentService.putExtra(RequestService.REQUEST_ACTION, RequestService.REQUEST_DOWNLOAD);
-        startService(intentService);
-        */
+
             }
+
         });
+
     }
-
-
 
     private void clearDataFromDB() {
 
         farmacie.clear();
 
-        // Delete by RoomDatabase
 
         new Thread(new Runnable() {
             @Override
@@ -170,15 +191,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void loadDataFromDB() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<Farmacia> data = RDatabase.getInstance(getApplicationContext())
-                        .getFarmacieDao().getAllFarmacie();
-                farmacie.addAll(data);
+    @Override
+        public void onClick (View view){
 
-            }
-        }).start();
+
+
+        View parentView = (View) view.getParent();
+        EditText editText = parentView.findViewById(R.id.editText);
+        String query = editText.getText().toString();
+        if (query != "") {
+            Intent intent = new Intent(MainActivity.this, ResearchActivity.class);
+            intent.putExtra("query", query);
+            startActivity(intent);
+        }
+
     }
+
 }

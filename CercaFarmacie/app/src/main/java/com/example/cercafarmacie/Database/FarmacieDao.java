@@ -12,9 +12,6 @@ import java.util.List;
 @Dao
 public interface FarmacieDao {
 
-  //  @Insert
-    //public void save(Farmacia farmacia);
-
     @Insert
     public void saveAll(List<Farmacia> farmacia);
 
@@ -27,8 +24,8 @@ public interface FarmacieDao {
     @Query("SELECT * FROM farmacie")
     public List<Farmacia> getAllFarmacie();
 
-    @Query("SELECT * FROM farmacie WHERE descrizioneComune LIKE :nomeComune")
-    public abstract List<Farmacia> findFarmacieByComune(String nomeComune);
+    @Query("SELECT * FROM farmacie WHERE descrizioneComune LIKE :nomeComune AND dataFineValidita LIKE :aperta")
+    public abstract List<Farmacia> findFarmacieByComune(String nomeComune, String aperta);
 
 
 }

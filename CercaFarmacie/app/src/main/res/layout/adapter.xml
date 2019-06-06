@@ -8,20 +8,21 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="match_parent"
+        android:layout_width="328dp"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-smallcaps"
         android:textColor="@color/colorAccent"
         android:textSize="20sp"
         android:textStyle="bold"
-        tools:text="City Name" />
+        tools:text="Nome" />
 
     <TextView
         android:id="@+id/subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryDark"
-        tools:text="Region Name" />
+        android:textColor="@color/colorBlack"
+        tools:text="Indirizzo" />
+
 
     <View
         android:layout_width="match_parent"

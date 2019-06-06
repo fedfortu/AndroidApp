@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">CercaFarmacie</string>
+
+    <string name="dialog_title">Attenzione</string>
+    <string name="dialog_message">Vuoi uscire?</string>
+    <string name="main_refresh">Aggiorna</string>
+    <string name="nome">Nome Farmacia</string>
+    <string name="regione">Regione</string>
+    <string name="provincia">Provincia</string>
+    <string name="comune">Comune</string>
+    <string name="indirizzo">Indirizzo</string>
+    <string name="cap">Cap</string>
+    <string name="descrizioneTipologia">Tipologia</string>
+    <string name="toast_nocoord">Non presente sulla mappa!</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyB4TFYQ5RDbna7ydgfMmHKqAW1LmrJtgTQ</string>
 </resources>
